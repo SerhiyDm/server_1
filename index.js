@@ -45,6 +45,13 @@ server.use((req, res) => {
 });
 server.use((err, req, res, next) => {
   const { status = 500, message = "Server error" } = err;
+  if (message.includes("Unexpected token")) {
+    res.status(status).json({
+      message:
+        "ВИ НАЧУДИЛИ З ТІЛОМ ЗАПИТУ!! ЗВЕРНІТЬ УВАГУ НА СИНТАКСИС ЗАПИСУ JSON",
+    });
+    return;
+  }
   res.status(status).json({ message });
 });
 server.listen(PORT, console.log("Server running"));
